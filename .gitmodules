@@ -1,0 +1,3 @@
+[submodule "third-party/popwin"]
+	path = third-party/popwin
+	url = git://github.com/m2ym/popwin-el.git
