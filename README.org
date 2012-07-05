@@ -1,0 +1,37 @@
+* My Emacs configuration
+
+** Installation
+ 
+   Clone repository:
+   
+   #+BEGIN_SRC sh
+   git clone git@github.com:andy128k/dot-emacs.git
+   #+END_SRC
+      
+   or
+   
+   #+BEGIN_SRC sh
+   git clone git://github.com/andy128k/dot-emacs.git
+   #+END_SRC
+      
+   Create symbolic link in your home directory:
+    
+   #+BEGIN_SRC sh
+   cd ~
+   ln -s dot-emacs/emacs.el .emacs.el
+   #+END_SRC
+
+   Run your Emacs.
+
+** Hotkeys
+
+   | Key               | Descrition                       |
+   |-------------------+----------------------------------|
+   | C-f4              | Kill current buffer              |
+   | C-tab             | Switch to next buffer            |
+   | C-S-tab           | Switch to previous buffer        |
+   | C-f9              | Start/stop writing macro         |
+   | f9                | Execute macro                    |
+   | home, end, delete | Do what they shoud do under OS X |
+
+
