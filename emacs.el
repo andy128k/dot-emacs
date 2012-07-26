@@ -50,6 +50,9 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
+;; do not make backup files
+(setq make-backup-files nil)
+
 ;; Использовать окружение UTF-8
 (set-language-environment 'UTF-8)
 ;; UTF-8 для вывода на экран
