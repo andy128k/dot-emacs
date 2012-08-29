@@ -13,13 +13,22 @@
    #+BEGIN_SRC sh
    git clone git://github.com/andy128k/dot-emacs.git
    #+END_SRC
-      
+
+
+   Load submodules:
+
+   #+BEGIN_SRC sh
+   git submodule update --init
+   #+END_SRC
+
+   
    Create symbolic link in your home directory:
     
    #+BEGIN_SRC sh
    cd ~
    ln -s dot-emacs/emacs.el .emacs.el
    #+END_SRC
+
 
    Run your Emacs.
 
