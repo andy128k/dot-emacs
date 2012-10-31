@@ -30,6 +30,10 @@
 (unless (fboundp 'global-linum-mode)
   (require 'linum))
 (global-linum-mode 1)
+(setq linum-format "%4d ")
+(set-face-attribute 'linum nil
+		    :foreground "#ee9"
+		    :background "#555")
 
 ;; подсветка всех окружающих скобок
 (require 'highlight-parentheses)
