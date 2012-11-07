@@ -1,6 +1,7 @@
 ;; interoperability of clipboard
 (setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+(unless (string= system-type "darwin")
+  (setq interprogram-paste-function 'x-cut-buffer-or-selection-value))
 
 (global-set-key [C-f4]
                 (lambda ()
