@@ -93,6 +93,17 @@
          (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
          (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))))
 
+(defun find-files (root pattern)
+  (mapcar (lambda (f)
+            (expand-file-name f root))
+          (directory-files root nil pattern)))
+
+(defun first-existing (files)
+  (catch 'file
+    (dolist (f files)
+      (when (file-exists-p f)
+        (throw 'file f)))))
+
 ;;;
 ;;; slime
 ;;;
@@ -101,6 +112,20 @@
     (load ql)
     ;; Replace "sbcl" with the path to your implementation
     (setq inferior-lisp-program "sbcl")))
+
+;;;
+;;; closure-template
+;;;
+(let* ((dirs (cons
+              "~/quicklisp/local-projects/cl-closure-template"
+              (find-files "~/quicklisp/dists/quicklisp/software/" "cl-closure-template*")))
+       (files (mapcar (lambda (d)
+                        (expand-file-name "closure-template-html-mode.el" d))
+                      dirs))
+       (file (first-existing files)))
+  (when file
+    (load file)
+    (require 'closure-template-html-mode)))
 
 ;;
 ;; tabbar
