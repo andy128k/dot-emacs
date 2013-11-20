@@ -1,3 +1,21 @@
+;; Add the user-contributed repositories
+(require 'package)
+(package-initialize)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+;; update package info
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; install packages
+(dolist (pkg '(color-theme popup-switcher))
+  (when (and (not (package-installed-p pkg))
+	     (assoc pkg package-archive-contents))
+    (package-install pkg)))
+
+
 ;; interoperability of clipboard
 (setq x-select-enable-clipboard t)
 (unless (string= system-type "darwin")
@@ -194,4 +212,9 @@
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (require 'auto-complete-config)
 (ac-config-default)
+
+;; switch buffers
+(require 'popup-switcher)
+(setq psw-in-window-center t)
+(global-set-key (kbd "<C-tab>") 'psw-switch-buffer)
 
