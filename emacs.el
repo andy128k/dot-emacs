@@ -95,6 +95,10 @@
 ;; показ текущей колонки
 (column-number-mode 1)
 
+;; tramp
+(require 'tramp)
+(setq password-cache-expiry nil)
+
 ;; color theme
 (add-to-list 'load-path (concat dot-emacs-basedir "color-theme-6.6.0/"))
 (require 'color-theme)
