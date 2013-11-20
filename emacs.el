@@ -141,9 +141,12 @@
 ;;;
 ;;; closure-template
 ;;;
-(let* ((dirs (cons
-              "~/quicklisp/local-projects/cl-closure-template"
-              (find-files "~/quicklisp/dists/quicklisp/software/" "cl-closure-template*")))
+(let* ((quicklisp-dir "~/quicklisp")
+       (default-dir (concat quicklisp-dir "/dists/quicklisp/software"))
+       (dirs (cons
+              (concat quicklisp-dir "/local-projects/cl-closure-template")
+              (when (file-exists-p default-dir)
+		(find-files  (concat default-dir "/") "cl-closure-template*"))))
        (files (mapcar (lambda (d)
                         (expand-file-name "closure-template-html-mode.el" d))
                       dirs))
