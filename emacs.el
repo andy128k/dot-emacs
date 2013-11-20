@@ -204,13 +204,6 @@
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 
-;; Add the user-contributed repositories
-(require 'package)
-(package-initialize)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("marmalade" . "http://marmalade-repo.org/packages/")
-			 ("melpa" . "http://melpa.milkbox.net/packages/")))
-
 ;; auto-complete
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
