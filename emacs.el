@@ -172,3 +172,5 @@
 (setq psw-in-window-center t)
 (global-set-key (kbd "<C-tab>") 'psw-switch-buffer)
 
+(setq default-directory "~/")
+
