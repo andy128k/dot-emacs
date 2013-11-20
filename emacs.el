@@ -10,7 +10,11 @@
   (package-refresh-contents))
 
 ;; install packages
-(dolist (pkg '(color-theme popup-switcher))
+(dolist (pkg '(color-theme
+	       highlight-parentheses
+	       popwin
+	       popup-switcher
+	       scala-mode2))
   (when (and (not (package-installed-p pkg))
 	     (assoc pkg package-archive-contents))
     (package-install pkg)))
@@ -41,13 +45,8 @@
   (global-set-key (kbd "<end>") 'end-of-line)
   (setq mac-command-modifier 'meta))
 
-;; file-name-directory
-(setq dot-emacs-basedir (concat (file-name-directory (file-truename "~/.emacs.el")) "third-party/"))
-
-(add-to-list 'load-path dot-emacs-basedir)
-
-(unless (fboundp 'global-linum-mode)
-  (require 'linum))
+;; line numbers on gutter
+(require 'linum)
 (global-linum-mode 1)
 (setq linum-format "%4d ")
 (set-face-attribute 'linum nil
@@ -95,12 +94,16 @@
 ;; показ текущей колонки
 (column-number-mode 1)
 
+(setq enable-local-variables :all)
+
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
 ;; tramp
 (require 'tramp)
 (setq password-cache-expiry nil)
 
 ;; color theme
-(add-to-list 'load-path (concat dot-emacs-basedir "color-theme-6.6.0/"))
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-charcoal-black)
@@ -150,57 +153,8 @@
     (require 'closure-template-html-mode)))
 
 ;;
-;; tabbar
-;;
-(when (and window-system
-           (require 'tabbar nil t))
-  (defun is-emacs-buffer (name)
-    (or
-     (string= (substring name 0 2) " *")
-     (string= (substring name 0 1) "*")))
-
-  (setq tabbar-buffer-groups-function
-        (lambda (buffer)
-          (with-current-buffer (get-buffer buffer)
-            (cond
-             ((is-emacs-buffer (buffer-name))
-              '("Emacs Buffers"))
-             (t
-              '("User Buffers"))))))
-  (tabbar-mode)
-
-  (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-  (global-set-key (kbd "<C-S-iso-lefttab>") 'tabbar-backward-tab)
-
-  (set-face-attribute 'tabbar-default-face nil
-                      :height 1.5
-                      :background "#B8B8B8")
-
-  (set-face-attribute 'tabbar-button-face nil
-                      :height 1.5
-                      :box '(:line-width 4 :color "#B8B8B8" :style nil))
-
-  (set-face-attribute 'tabbar-selected-face nil
-                      :foreground "white" :background "#333333"
-                      :height 1.5
-                      :font "DejaVu Sans" :weight 'semi-bold
-                      :box nil)
-
-  (set-face-attribute 'tabbar-unselected-face nil
-                      :foreground "black" :background "#EEEEEE"
-                      :height 1.5
-                      :font "DejaVu Sans"
-                      :box '(:line-width 1 :color "#333333" :style nil)))
-
-(setq enable-local-variables :all)
-
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-
-;;
 ;; popwin
 ;;
-(add-to-list 'load-path (concat dot-emacs-basedir "popwin/"))
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 
