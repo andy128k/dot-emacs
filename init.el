@@ -10,21 +10,36 @@
   (package-refresh-contents))
 
 ;; install packages
-(dolist (pkg '(color-theme
-	       highlight-parentheses
-	       popwin
-	       popup-switcher
-	       scala-mode2))
+(defun install-package-if-possible (pkg)
   (when (and (not (package-installed-p pkg))
 	     (assoc pkg package-archive-contents))
     (package-install pkg)))
 
+(dolist (pkg '(color-theme
+	       highlight-parentheses
+	       popwin
+	       popup-switcher
+	       ag
+	       scala-mode2))
+  (install-package-if-possible pkg))
+
+(when (memq window-system '(mac ns))
+  (install-package-if-possible 'exec-path-from-shell)
+  (exec-path-from-shell-initialize))
 
 ;; interoperability of clipboard
 (setq x-select-enable-clipboard t)
 (unless (string= system-type "darwin")
   (setq interprogram-paste-function 'x-cut-buffer-or-selection-value))
 
+;; do not kill *scratch*
+(defadvice kill-buffer (around kill-buffer-around-advice activate)
+  (let ((buffer-to-kill (ad-get-arg 0)))
+    (if (equal buffer-to-kill "*scratch*")
+        (bury-buffer)
+        ad-do-it)))
+
+;; hotkeys
 (global-set-key [C-f4]
                 (lambda ()
                   (interactive)
@@ -37,6 +52,8 @@
                       (end-kbd-macro)
                     (start-kbd-macro nil))))
 (global-set-key [f9] 'call-last-kbd-macro)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; osx key bindings
 (when (eq system-type 'darwin)
@@ -173,4 +190,43 @@
 (global-set-key (kbd "<C-tab>") 'psw-switch-buffer)
 
 (setq default-directory "~/")
+
+;; ag
+(setq ag-reuse-buffers 't)
+(setq ag-highlight-search t)
+(global-set-key [f7] 'ag-project)
+(global-set-key [C-f7] 'ag)
+
+;; navigate between windows with Hyper-arrows
+(windmove-default-keybindings 'hyper)
+
+;; buffer names
+(require 'uniquify)
+(custom-set-variables
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+
+;; SPHP
+
+(add-to-list 'auto-mode-alist
+	     '("\\.sphp$" . (lambda ()
+			      (common-lisp-mode)
+			      (set (make-local-variable 'lisp-indent-function)
+				   'common-lisp-indent-function)
+			      (let ((keywords '(final-class font-lock-keyword-face (4 &body)
+					        public      font-lock-keyword-face ((&whole 2 &rest ((1) &lambda &body)))
+						protected   font-lock-keyword-face (2)
+						private     font-lock-keyword-face (2))))
+				(loop for k on keywords by 'cdddr
+				      do
+				      (put (car k) 'common-lisp-indent-function (caddr k))
+				      (add-to-list 'font-lock-keywords
+						   (cons (symbol-name (car k))
+							 (cadr k))))))))
+
+
+;; js
+(setq js-indent-level 2)
+
+;; haskell
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
