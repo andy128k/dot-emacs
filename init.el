@@ -127,13 +127,7 @@
 
 ;; expand frame
 (when window-system
-  (cond ((string= system-type "darwin")
-         (set-frame-position (selected-frame) 100 0)
-         (set-frame-size (selected-frame) 200 65))
-
-        (t ; unix
-         (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-         (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))))
+  (toggle-frame-maximized))
 
 (defun find-files (root pattern)
   (mapcar (lambda (f)
