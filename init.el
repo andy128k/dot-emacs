@@ -20,7 +20,8 @@
 	       popwin
 	       popup-switcher
 	       ag
-	       scala-mode2))
+	       scala-mode2
+	       js2-mode))
   (install-package-if-possible pkg))
 
 (when (memq window-system '(mac ns))
@@ -220,6 +221,12 @@
 
 ;; js
 (setq js-indent-level 2)
+
+;; js2
+(custom-set-variables
+ '(js2-basic-offset 2)
+ '(js2-bounce-indent-p t))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
