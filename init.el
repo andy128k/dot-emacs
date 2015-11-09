@@ -231,3 +231,9 @@
 ;; haskell
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
+;;
+;; server
+;;
+;; alias e='emacsclient -n'
+(server-start)
+
